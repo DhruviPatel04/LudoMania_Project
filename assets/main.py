@@ -5,6 +5,7 @@ from PIL import Image,ImageTk
 import time
 from random import randint, choice
 from tkinter import messagebox
+import random
 
 
 class Ludo:
@@ -691,6 +692,116 @@ class Ludo:
         
         Label(self.make_canvas, text="Player 4", bg="#141414", fg="gold", font=("Arial", 15, "bold")).place(x=100+(40*6+40*3+40*6+7), y=15+140+50)
         self.store_instructional_btn(block_predict_green, predict_green, [btn_1,btn_2,btn_3,btn_4])
+
+        hint_button = Button(self.make_canvas, text="Hint", bg="red", fg="white", font=("Arial", 13, "bold"), 
+                         relief=RAISED, bd=3, command=self.show_hint)
+        hint_button.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 7), y=15 + 140 + 150)
+
+        self.store_instructional_btn(block_predict_green, predict_green, [btn_1, btn_2, btn_3, btn_4])
+
+
+
+    def show_hint(self):
+        current_player = "red"  # Assume it's red's turn for this example
+
+        # Get the AI-predicted best move for the player
+        best_move = self.predict_best_move(current_player)
+
+        # Display the AI-driven hint
+        messagebox.showinfo("AI Hint", best_move)
+
+
+    # Predict the best move based on simple AI decision-making
+    def predict_best_move(self, color):
+        # Get the positions of the player's coins
+        if color == "red":
+            coin_positions = self.red_coin_position
+        elif color == "green":
+            coin_positions = self.green_coin_position
+        elif color == "yellow":
+            coin_positions = self.yellow_coin_position
+        else:  # sky_blue
+            coin_positions = self.sky_blue_coin_position
+
+        # Evaluate the risk of each coin
+        risks = self.evaluate_risks(color)
+        
+        # Store possible moves with associated risk and reward factors
+        move_evaluations = []
+        
+        # Loop through each coin and evaluate the possible moves
+        for i, position in enumerate(coin_positions):
+            if position == -1:
+                # Coin is in the base, needs a 6 to move
+                move_evaluations.append((f"Coin {i+1} can start moving with a 6", 0.166))  # Probability of rolling 6
+            else:
+                # Simulate two future dice rolls
+                roll_1 = random.randint(1, 6)
+                roll_2 = random.randint(1, 6)
+                
+                # Evaluate the move for each roll
+                move_1, reward_1 = self.evaluate_move(position, roll_1, risks[i])
+                move_2, reward_2 = self.evaluate_move(position, roll_2, risks[i])
+
+                move_evaluations.append((f"Coin {i+1} can move to position {position + roll_1} with roll {roll_1}", reward_1))
+                move_evaluations.append((f"Coin {i+1} can move to position {position + roll_2} with roll {roll_2}", reward_2))
+
+        # Select the best move based on the highest reward score
+        best_move = max(move_evaluations, key=lambda x: x[1])
+        return f"AI suggests: {best_move[0]}"
+
+
+    # Evaluate the risk for each coin (e.g., if it's at risk of being captured)
+    def evaluate_risks(self, color):
+        # Calculate risks based on opponent positions
+        if color == "red":
+            opponent_positions = self.green_coin_position + self.yellow_coin_position + self.sky_blue_coin_position
+        elif color == "green":
+            opponent_positions = self.red_coin_position + self.yellow_coin_position + self.sky_blue_coin_position
+        elif color == "yellow":
+            opponent_positions = self.red_coin_position + self.green_coin_position + self.sky_blue_coin_position
+        else:
+            opponent_positions = self.red_coin_position + self.green_coin_position + self.yellow_coin_position
+
+        risks = []
+        for i, position in enumerate(opponent_positions):
+            if position == -1:
+                risks.append(0)  # No risk if the opponent's coin is at start
+            else:
+                risk_value = self.calculate_risk(position)
+                risks.append(risk_value)
+
+        return risks
+
+
+    # Calculate the risk based on proximity to opponent's coins
+    def calculate_risk(self, position):
+        risk_factor = 0
+
+        # Assume a risk zone within 6 steps of the player's coin (adjust for actual game rules)
+        for opponent_position in range(position - 6, position + 6):
+            if opponent_position == position:
+                risk_factor += 1  # Higher risk if an opponent is nearby
+
+        return risk_factor
+
+
+    # Evaluate each move based on reward (distance to home) and risk (opponent proximity)
+    def evaluate_move(self, position, roll, risk):
+        new_position = position + roll
+        reward = 0
+
+        # Prioritize moves that bring the coin closer to the home zone
+        if new_position >= 106:  # Assume 106 is the home
+            reward += 10  # High reward for reaching home
+        elif new_position >= 50:
+            reward += 5  # Mid-level reward for getting closer to home
+
+        # Penalize moves that put the coin at risk of being captured
+        if risk > 0:
+            reward -= risk * 2  # Penalize heavily for high-risk positions
+
+        return new_position, reward
 
     def store_instructional_btn(self, block_indicator, predictor, entry_controller):
         temp = []
