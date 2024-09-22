@@ -287,11 +287,11 @@ class Ludo:
         self.green_number_label.append(green_4_label)
 
         # Make coin for sky_blue left down block
-        sky_blue_1_coin = self.make_canvas.create_oval(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
+        sky_blue_1_label_1_coin = self.make_canvas.create_oval(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
         sky_blue_2_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
         sky_blue_3_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 100 + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="#04d9ff", outline="black")
         sky_blue_4_coin = self.make_canvas.create_oval( 100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#04d9ff", outline="black")
-        self.made_sky_blue_coin.append(sky_blue_1_coin)
+        self.made_sky_blue_coin.append(sky_blue_2_coin)
         self.made_sky_blue_coin.append(sky_blue_2_coin)
         self.made_sky_blue_coin.append(sky_blue_3_coin)
         self.made_sky_blue_coin.append(sky_blue_4_coin)
@@ -720,8 +720,8 @@ class Ludo:
             coin_positions = self.green_coin_position
         elif color == "yellow":
             coin_positions = self.yellow_coin_position
-        else:  # sky_blue
-            coin_positions = self.sky_blue_coin_position
+        else:  color== "sky_blue"
+        coin_positions = self.sky_blue_coin_position
 
         # Evaluate the risk of each coin
         risks = self.evaluate_risks(color)
@@ -749,6 +749,74 @@ class Ludo:
         # Select the best move based on the highest reward score
         best_move = max(move_evaluations, key=lambda x: x[1])
         return f"AI suggests: {best_move[0]}"
+
+
+#     def get_game_state(self):
+#     # Example: list of coin positions, current player turn, etc.
+#         return [self.red_coin_position, self.green_coin_position, self.yellow_coin_position, self.sky_blue_coin_position, self.current_player]
+ 
+#     class MCTSNode:
+#      def __init__(self, state, parent=None):
+#         self.state = state
+#         self.parent = parent
+#         self.children = []
+#         self.visits = 0
+#         self.value = 0.0
+
+#     def mcts(root_node, num_simulations):
+#      for _ in range(num_simulations):
+#         leaf = select_leaf_node(root_node)
+#         simulation_result = simulate_game_from_node(leaf)
+#         backpropagate(leaf, simulation_result)
+
+#     def select_leaf_node(node):
+#     # Selection strategy: Upper Confidence Bound (UCB)
+#          pass
+
+#     def simulate_game_from_node(node):
+#     # Play random moves until the game ends, return the result
+#          pass
+
+#     def backpropagate(node, result):
+#     # Update values and visits based on the result
+#          pass
+
+
+
+# def make_prediction(self, color_indicator):
+#     # MCTS logic
+#     root_node = MCTSNode(get_game_state())
+#     best_move = mcts(root_node, num_simulations=1000)
+#     # Update the game with the best move
+
+
+
+# def build_q_network(input_shape, output_shape):
+#     model = tf.keras.Sequential()
+#     model.add(layers.Input(shape=input_shape))
+#     model.add(layers.Dense(128, activation='relu'))
+#     model.add(layers.Dense(128, activation='relu'))
+#     model.add(layers.Dense(output_shape))
+#     return model
+
+# def train_q_network():
+#     # Training loop to update the Q-Network using experiences (states, actions, rewards)
+#     pass
+
+# def make_prediction(self, color_indicator):
+#     state = get_game_state()
+#     q_values = q_network.predict(state)
+#     best_move = np.argmax(q_values)  # Select the action with the highest Q-value
+#     # Perform the move in the game
+
+
+
+
+
+
+
+
+
 
 
     # Evaluate the risk for each coin (e.g., if it's at risk of being captured)
