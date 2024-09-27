@@ -1,4 +1,4 @@
-# Ludo game Integrated With AI #
+# LUDOMANIA #
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image,ImageTk
