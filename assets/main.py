@@ -1,14 +1,14 @@
-# LUDOMANIA #
+# LUDOMANIA  #
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image,ImageTk
-import time
-from random import randint, choice
 from tkinter import messagebox
 import random
+import time
+from random import randint, choice
 
 
-class Ludo:
+class Ludomania:
 
 
 
@@ -22,7 +22,7 @@ class Ludo:
          if self.temp[coin-1] + self.move_red_counter <= 106:
             possible_moves.append((coin, self.temp[coin-1] + self.move_red_counter))
         # Check if the coin can capture an opponent's coin
-        for opponent_coin in self.sky_blue_coin_position:
+        for opponent_coin in self.blue_coin_position:
             if self.temp[coin-1] + self.move_red_counter == opponent_coin:
                 possible_moves.append((coin, opponent_coin))
     
@@ -40,7 +40,7 @@ class Ludo:
     def __init__(self, root,six_side_block,five_side_block,four_side_block,three_side_block,two_side_block,one_side_block):
         self.window = root
         # Make canvas
-        self.make_canvas = Canvas(self.window, bg="#141414", width=800, height=630)
+        self.make_canvas = Canvas(self.window, bg="#FFFFFF", width=1000, height=630)
         self.make_canvas.pack(fill=BOTH,expand=1)
 
 
@@ -48,14 +48,14 @@ class Ludo:
 
         # Make some containers to store data
         self.made_red_coin = []
-        self.made_green_coin = []
-        self.made_yellow_coin = []
-        self.made_sky_blue_coin = []
+        self.made_grn_coin = []
+        self.made_pink_coin = []
+        self.made_blue_coin = []
 
         self.red_number_label = []
-        self.green_number_label = []
-        self.yellow_number_label = []
-        self.sky_blue_number_label = []
+        self.grn_number_label = []
+        self.pink_number_label = []
+        self.blue_number_label = []
 
         self.block_value_predict = []
         self.total_people_play = []
@@ -65,34 +65,34 @@ class Ludo:
 
         # Use for store specific position of all coins
         self.red_coord_store = [-1, -1, -1, -1]
-        self.green_coord_store = [-1, -1, -1, -1]
-        self.yellow_coord_store = [-1, -1, -1, -1]
-        self.sky_blue_coord_store = [-1, -1, -1, -1]
+        self.grn_coord_store = [-1, -1, -1, -1]
+        self.pink_coord_store = [-1, -1, -1, -1]
+        self.blue_coord_store = [-1, -1, -1, -1]
 
         self.red_coin_position = [0, 1, 2, 3]
-        self.green_coin_position = [0, 1, 2, 3]
-        self.yellow_coin_position = [0, 1, 2, 3]
-        self.sky_blue_coin_position = [0, 1, 2, 3]
+        self.grn_coin_position = [0, 1, 2, 3]
+        self.pink_coin_position = [0, 1, 2, 3]
+        self.blue_coin_position = [0, 1, 2, 3]
 
         for index in range(len(self.red_coin_position)):# Specific coin position set to -1 by default
             self.red_coin_position[index] = -1
-            self.green_coin_position[index] = -1
-            self.yellow_coin_position[index] = -1
-            self.sky_blue_coin_position[index] = -1
+            self.grn_coin_position[index] = -1
+            self.pink_coin_position[index] = -1
+            self.blue_coin_position[index] = -1
 
         # Number to room to be traverse by specific color coin, store in that variable
         self.move_red_counter = 0
-        self.move_green_counter = 0
-        self.move_yellow_counter = 0
-        self.move_sky_blue_counter = 0
+        self.move_grn_counter = 0
+        self.move_pink_counter = 0
+        self.move_blue_counter = 0
 
         self.take_permission = 0
         self.six_with_overlap = 0
 
         self.red_store_active = 0
-        self.sky_blue_store_active = 0
-        self.yellow_store_active = 0
-        self.green_store_active = 0
+        self.blue_store_active = 0
+        self.pink_store_active = 0
+        self.grn_store_active = 0
 
         self.six_counter = 0
         self.time_for = -1
@@ -112,9 +112,9 @@ class Ludo:
         self.board_set_up()
 
         self.instruction_btn_red()
-        self.instruction_btn_sky_blue()
-        self.instruction_btn_yellow()
-        self.instruction_btn_green()
+        self.instruction_btn_blue()
+        self.instruction_btn_pink()
+        self.instruction_btn_grn()
 
         self.take_initial_control()
 
@@ -125,9 +125,9 @@ class Ludo:
 
         # Square box
         self.make_canvas.create_rectangle(100, 15, 100+240, 15+240, width=3, fill="red")# left up large square
-        self.make_canvas.create_rectangle(100, (15+240)+(40*3), 100+240, (15+240)+(40*3)+(40*6), width=3, fill="#04d9ff")# left down large square
-        self.make_canvas.create_rectangle(340+(40*3), 15, 340+(40*3)+(40*6), 15+240, width=3, fill="#00FF00")# right up large square
-        self.make_canvas.create_rectangle(340+(40*3), (15+240)+(40*3), 340+(40*3)+(40*6), (15+240)+(40*3)+(40*6), width=3, fill="yellow")# right down large square
+        self.make_canvas.create_rectangle(100, (15+240)+(40*3), 100+240, (15+240)+(40*3)+(40*6), width=3, fill="#073763")# left down large square
+        self.make_canvas.create_rectangle(340+(40*3), 15, 340+(40*3)+(40*6), 15+240, width=3, fill="#8fce73")# right up large square
+        self.make_canvas.create_rectangle(340+(40*3), (15+240)+(40*3), 340+(40*3)+(40*6), (15+240)+(40*3)+(40*6), width=3, fill="pink")# right down large square
 
         # Left 3 box(In white region)
         self.make_canvas.create_rectangle(100, (15+240), 100+240, (15+240)+40, width=3)
@@ -136,17 +136,17 @@ class Ludo:
 
         # right 3 box(In white region)
         self.make_canvas.create_rectangle(100+240, 15, 100 + 240+40, 15 + (40*6), width=3)
-        self.make_canvas.create_rectangle(100+240+40, 15+40, 100+240+80, 15 + (40*6), width=3, fill="#00FF00")
+        self.make_canvas.create_rectangle(100+240+40, 15+40, 100+240+80, 15 + (40*6), width=3, fill="#8fce73")
         self.make_canvas.create_rectangle(100+240+80, 15, 100 + 240+80+40, 15 + (40*6), width=3)
 
         # up 3 box(In white region)
         self.make_canvas.create_rectangle(340+(40*3), 15+240, 340+(40*3)+(40*6), 15+240+40, width=3)
-        self.make_canvas.create_rectangle(340+(40*3), 15+240+40, 340+(40*3)+(40*6)-40, 15+240+80, width=3, fill="yellow")
+        self.make_canvas.create_rectangle(340+(40*3), 15+240+40, 340+(40*3)+(40*6)-40, 15+240+80, width=3, fill="pink")
         self.make_canvas.create_rectangle(340+(40*3), 15+240+80, 340+(40*3)+(40*6), 15+240+120, width=3)
 
         # down 3 box(In white region)
         self.make_canvas.create_rectangle(100, (15 + 240)+(40*3), 100 + 240+40, (15 + 240)+(40*3)+(40*6), width=3)
-        self.make_canvas.create_rectangle(100+240+40, (15 + 240)+(40*3), 100 + 240+40+40, (15 + 240)+(40*3)+(40*6)-40, width=3, fill="#04d9ff")
+        self.make_canvas.create_rectangle(100+240+40, (15 + 240)+(40*3), 100 + 240+40+40, (15 + 240)+(40*3)+(40*6)-40, width=3, fill="#073763")
         self.make_canvas.create_rectangle(100 + 240+40+40, (15 + 240)+(40*3), 100 + 240+40+40+40, (15 + 240)+(40*3)+(40*6), width=3)
 
         # All left separation line
@@ -204,41 +204,41 @@ class Ludo:
 
 
         # Right up square inside box made
-        self.make_canvas.create_rectangle(340+(40*3)+40, 15 + 40, 340+(40*3)+40 + 40, 15 + 40 + 40, width=3, fill="#00FF00")
-        self.make_canvas.create_rectangle(340+(40*3)+40+ 60 + 40+20, 15 + 40, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40, width=3, fill="#00FF00")
-        self.make_canvas.create_rectangle(340+(40*3)+40, 15 + 40 + 100, 340+(40*3)+40 + 40, 15 + 40 + 40 + 100, width=3, fill="#00FF00")
-        self.make_canvas.create_rectangle(340+(40*3)+40+ 60 + 40+20, 15 + 40 + 100, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40 + 100, width=3, fill="#00FF00")
+        self.make_canvas.create_rectangle(340+(40*3)+40, 15 + 40, 340+(40*3)+40 + 40, 15 + 40 + 40, width=3, fill="#8fce73")
+        self.make_canvas.create_rectangle(340+(40*3)+40+ 60 + 40+20, 15 + 40, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40, width=3, fill="#8fce73") #green
+        self.make_canvas.create_rectangle(340+(40*3)+40, 15 + 40 + 100, 340+(40*3)+40 + 40, 15 + 40 + 40 + 100, width=3, fill="#8fce73")
+        self.make_canvas.create_rectangle(340+(40*3)+40+ 60 + 40+20, 15 + 40 + 100, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40 + 100, width=3, fill="#8fce73")
 
 
         # Left down square inside box made
-        self.make_canvas.create_rectangle(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#04d9ff")
-        self.make_canvas.create_rectangle(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#04d9ff")
-        self.make_canvas.create_rectangle(100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#04d9ff")
-        self.make_canvas.create_rectangle(100 + 40 + 60 + 40+20, 340+80+60+40+15, 100 + 40 + 60 + 40 + 40+20, 340+80+60+40+40+15, width=3, fill="#04d9ff")
+        self.make_canvas.create_rectangle(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#073763")  #blue
+        self.make_canvas.create_rectangle(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#073763")
+        self.make_canvas.create_rectangle(100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#073763")
+        self.make_canvas.create_rectangle(100 + 40 + 60 + 40+20, 340+80+60+40+15, 100 + 40 + 60 + 40 + 40+20, 340+80+60+40+40+15, width=3, fill="#073763")
 
 
         # Right down square inside box made
-        self.make_canvas.create_rectangle(340 + (40 * 3) + 40, 340+80+15, 340 + (40 * 3) + 40 + 40, 340+80+40+15, width=3, fill="yellow")
-        self.make_canvas.create_rectangle(340 + (40 * 3) + 40 + 60 + 40+20, 340+80+15, 340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="yellow")
-        self.make_canvas.create_rectangle(340 + (40 * 3) + 40, 340+80+60+40+15, 340 + (40 * 3) + 40 + 40,340+80+60+40+40+15, width=3, fill="yellow")
-        self.make_canvas.create_rectangle(340 + (40 * 3) + 40 + 60 + 40+20, 340+80+60+40+15,340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+60+40+40+15, width=3, fill="yellow")
+        self.make_canvas.create_rectangle(340 + (40 * 3) + 40, 340+80+15, 340 + (40 * 3) + 40 + 40, 340+80+40+15, width=3, fill="pink")
+        self.make_canvas.create_rectangle(340 + (40 * 3) + 40 + 60 + 40+20, 340+80+15, 340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="pink")
+        self.make_canvas.create_rectangle(340 + (40 * 3) + 40, 340+80+60+40+15, 340 + (40 * 3) + 40 + 40,340+80+60+40+40+15, width=3, fill="pink")
+        self.make_canvas.create_rectangle(340 + (40 * 3) + 40 + 60 + 40+20, 340+80+60+40+15,340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+60+40+40+15, width=3, fill="pink")
 
-        # sky_blue start position
-        self.make_canvas.create_rectangle(100+240,340+(40*5)-5,100+240+40,340+(40*6)-5,fill="#04d9ff",width=3)
+        # blue start position
+        self.make_canvas.create_rectangle(100+240,340+(40*5)-5,100+240+40,340+(40*6)-5,fill="#073763",width=3) #green
         # Red start position
         self.make_canvas.create_rectangle(100 + 40, 15+(40*6), 100 +40 + 40, 15+(40*6)+40, fill="red", width=3)
         # Green start position
-        self.make_canvas.create_rectangle(100 + (40*8), 15 + 40, 100 +(40*9), 15 + 40+ 40, fill="#00FF00", width=3)
-        # Yellow start position
-        self.make_canvas.create_rectangle(100 + (40 * 6)+(40*3)+(40*4), 15 + (40*8), 100 + (40 * 6)+(40*3)+(40*5), 15 + (40*9), fill="yellow", width=3)
+        self.make_canvas.create_rectangle(100 + (40*8), 15 + 40, 100 +(40*9), 15 + 40+ 40, fill="#8fce73", width=3) #blue
+        # pink start position
+        self.make_canvas.create_rectangle(100 + (40 * 6)+(40*3)+(40*4), 15 + (40*8), 100 + (40 * 6)+(40*3)+(40*5), 15 + (40*9), fill="pink", width=3)
 
-        # Traingle in middle
+        # Traingle in middle depending upon the vertex(1,2,3)
         self.make_canvas.create_polygon(100+240, 15+240, 100+240+60, 15+240+60, 100+240, 15+240+(40*3), width=3,fill="red",outline="black")
-        self.make_canvas.create_polygon(100 + 240+(40*3), 15 + 240, 100 + 240 + 60, 15 + 240 + 60, 100 + 240+(40*3), 15 + 240 + (40 * 3), width=3, fill="yellow",outline="black")
-        self.make_canvas.create_polygon(100 + 240, 15 + 240, 100 + 240 + 60, 15 + 240 + 60, 100 + 240 + (40 * 3), 15 + 240, width=3, fill="#00FF00",outline="black")
-        self.make_canvas.create_polygon(100 + 240, 15 + 240+(40*3), 100 + 240 + 60, 15 + 240 + 60, 100 + 240 + (40 * 3), 15 + 240+(40*3), width=3, fill="#04d9ff",outline="black")
+        self.make_canvas.create_polygon(100 + 240+(40*3), 15 + 240, 100 + 240 + 60, 15 + 240 + 60, 100 + 240+(40*3), 15 + 240 + (40 * 3), width=3, fill="pink",outline="black")
+        self.make_canvas.create_polygon(100 + 240, 15 + 240, 100 + 240 + 60, 15 + 240 + 60, 100 + 240 + (40 * 3), 15 + 240, width=3, fill="#8fce73",outline="black") 
+        self.make_canvas.create_polygon(100 + 240, 15 + 240+(40*3), 100 + 240 + 60, 15 + 240 + 60, 100 + 240 + (40 * 3), 15 + 240+(40*3), width=3, fill="#073763",outline="black") #green
 
-        # Make coin for red left up block
+        # Make coin for red left up block(top left , bottom right corner)
         red_1_coin = self.make_canvas.create_oval(100+40, 15+40, 100+40+40, 15+40+40, width=3, fill="red", outline="black")
         red_2_coin = self.make_canvas.create_oval(100+40+60+60, 15 + 40, 100+40+60+60+40, 15 + 40 + 40, width=3, fill="red", outline="black")
         red_3_coin = self.make_canvas.create_oval(100 + 40 + 60 + 60, 15 + 40 + 100, 100 + 40 + 60 + 60 + 40, 15 + 40 + 40 + 100, width=3, fill="red", outline="black")
@@ -263,89 +263,81 @@ class Ludo:
         self.red_number_label.append(red_4_label)
 
         # Make coin for green right up block
-        green_1_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40, 340+(40*3)+40 + 40, 15 + 40 + 40, width=3, fill="#00FF00", outline="black")
-        green_2_coin = self.make_canvas.create_oval(340+(40*3)+40+ 60 + 40+20, 15 + 40, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40, width=3, fill="#00FF00", outline="black")
-        green_3_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 15 + 40 + 100, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 15 + 40 + 40 + 100, width=3, fill="#00FF00", outline="black")
-        green_4_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40 + 100, 340+(40*3)+40 + 40, 15 + 40 + 40 + 100, width=3, fill="#00FF00", outline="black")
-        self.made_green_coin.append(green_1_coin)
-        self.made_green_coin.append(green_2_coin)
-        self.made_green_coin.append(green_3_coin)
-        self.made_green_coin.append(green_4_coin)
+        grn_1_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40, 340+(40*3)+40 + 40, 15 + 40 + 40, width=3, fill="#8fce73", outline="black")
+        grn_2_coin = self.make_canvas.create_oval(340+(40*3)+40+ 60 + 40+20, 15 + 40, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40, width=3, fill="#8fce73", outline="black")
+        grn_3_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 15 + 40 + 100, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 15 + 40 + 40 + 100, width=3, fill="#8fce73", outline="black")
+        grn_4_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40 + 100, 340+(40*3)+40 + 40, 15 + 40 + 40 + 100, width=3, fill="#8fce73", outline="black")
+        self.made_grn_coin.append(grn_1_coin)
+        self.made_grn_coin.append(grn_2_coin)
+        self.made_grn_coin.append(grn_3_coin)
+        self.made_grn_coin.append(grn_4_coin)
 
         # Make coin under number label for green right up block
-        green_1_label = Label(self.make_canvas, text="1", font=("Arial", 15, "bold"), bg="#00FF00", fg="black")
-        green_1_label.place(x=340 + (40 * 3) + 40 + 10, y=15 + 40 + 5)
-        green_2_label = Label(self.make_canvas, text="2", font=("Arial", 15, "bold"), bg="#00FF00", fg="black")
-        green_2_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 5)
-        green_3_label = Label(self.make_canvas, text="3", font=("Arial", 15, "bold"), bg="#00FF00", fg="black")
-        green_3_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 100 + 5)
-        green_4_label = Label(self.make_canvas, text="4", font=("Arial", 15, "bold"), bg="#00FF00", fg="black")
-        green_4_label.place(x=340 + (40 * 3) + 40 + 10, y=15 + 40 + 100 + 5)
-        self.green_number_label.append(green_1_label)
-        self.green_number_label.append(green_2_label)
-        self.green_number_label.append(green_3_label)
-        self.green_number_label.append(green_4_label)
+        grn_1_label = Label(self.make_canvas, text="1", font=("Arial", 15, "bold"), bg="#8fce73", fg="black")
+        grn_1_label.place(x=340 + (40 * 3) + 40 + 10, y=15 + 40 + 5)
+        grn_2_label = Label(self.make_canvas, text="2", font=("Arial", 15, "bold"), bg="#8fce73", fg="black")
+        grn_2_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 5)
+        grn_3_label = Label(self.make_canvas, text="3", font=("Arial", 15, "bold"), bg="#8fce73", fg="black")
+        grn_3_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 100 + 5)
+        grn_4_label = Label(self.make_canvas, text="4", font=("Arial", 15, "bold"), bg="#8fce73", fg="black")
+        grn_4_label.place(x=340 + (40 * 3) + 40 + 10, y=15 + 40 + 100 + 5)
+        self.grn_number_label.append(grn_1_label)
+        self.grn_number_label.append(grn_2_label)
+        self.grn_number_label.append(grn_3_label)
+        self.grn_number_label.append(grn_4_label)
 
         # Make coin for sky_blue left down block
-        sky_blue_1_label_1_coin = self.make_canvas.create_oval(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
-        sky_blue_2_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
-        sky_blue_3_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 100 + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="#04d9ff", outline="black")
-        sky_blue_4_coin = self.make_canvas.create_oval( 100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#04d9ff", outline="black")
-        self.made_sky_blue_coin.append(sky_blue_2_coin)
-        self.made_sky_blue_coin.append(sky_blue_2_coin)
-        self.made_sky_blue_coin.append(sky_blue_3_coin)
-        self.made_sky_blue_coin.append(sky_blue_4_coin)
+        blue_1_label_1_coin = self.make_canvas.create_oval(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#073763", outline="black")
+        blue_2_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#073763", outline="black")
+        blue_3_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 100 + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="#073763", outline="black")
+        blue_4_coin = self.make_canvas.create_oval( 100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#073763", outline="black")
+        self.made_blue_coin.append(blue_2_coin)
+        self.made_blue_coin.append(blue_2_coin)
+        self.made_blue_coin.append(blue_3_coin)
+        self.made_blue_coin.append(blue_4_coin)
 
-        # Make coin under number label for sky_blue left down block
-        sky_blue_1_label = Label(self.make_canvas, text="1", font=("Arial", 15, "bold"), bg="#04d9ff", fg="black")
-        sky_blue_1_label.place(x=100 + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
-        sky_blue_2_label = Label(self.make_canvas, text="2", font=("Arial", 15, "bold"), bg="#04d9ff", fg="black")
-        sky_blue_2_label.place(x=100 + 40 + 60 + 60 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
-        sky_blue_3_label = Label(self.make_canvas, text="3", font=("Arial", 15, "bold"), bg="#04d9ff", fg="black")
-        sky_blue_3_label.place(x=100 + 40 + 60 + 60 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 60 + 40 + 10)
-        sky_blue_4_label = Label(self.make_canvas, text="4", font=("Arial", 15, "bold"), bg="#04d9ff", fg="black")
-        sky_blue_4_label.place(x=100 + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 60 + 40 + 10)
-        self.sky_blue_number_label.append(sky_blue_1_label)
-        self.sky_blue_number_label.append(sky_blue_2_label)
-        self.sky_blue_number_label.append(sky_blue_3_label)
-        self.sky_blue_number_label.append(sky_blue_4_label)
+        # Make coin under number label for blue left down block
+        blue_1_label = Label(self.make_canvas, text="1", font=("Arial", 15, "bold"), bg="#073763", fg="black")
+        blue_1_label.place(x=100 + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
+        blue_2_label = Label(self.make_canvas, text="2", font=("Arial", 15, "bold"), bg="#073763", fg="black")
+        blue_2_label.place(x=100 + 40 + 60 + 60 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
+        blue_3_label = Label(self.make_canvas, text="3", font=("Arial", 15, "bold"), bg="#073763", fg="black")
+        blue_3_label.place(x=100 + 40 + 60 + 60 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 60 + 40 + 10)
+        blue_4_label = Label(self.make_canvas, text="4", font=("Arial", 15, "bold"), bg="#073763", fg="black")
+        blue_4_label.place(x=100 + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 60 + 40 + 10)
+        self.blue_number_label.append(blue_1_label)
+        self.blue_number_label.append(blue_2_label)
+        self.blue_number_label.append(blue_3_label)
+        self.blue_number_label.append(blue_4_label)
 
-        # Make coin for yellow right down block
-        yellow_1_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+15, 340 + (40 * 3) + 40 + 40, 340+80+40+15, width=3, fill="yellow", outline="black")
-        yellow_2_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340+80+15, 340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="yellow", outline="black")
-        yellow_3_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="yellow", outline="black")
-        yellow_4_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+60+40+15, 340 + (40 * 3) + 40 + 40,340+80+60+40+40+15, width=3, fill="yellow", outline="black")
-        self.made_yellow_coin.append(yellow_1_coin)
-        self.made_yellow_coin.append(yellow_2_coin)
-        self.made_yellow_coin.append(yellow_3_coin)
-        self.made_yellow_coin.append(yellow_4_coin)
+        # Make coin for pink right down block
+        pink_1_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+15, 340 + (40 * 3) + 40 + 40, 340+80+40+15, width=3, fill="pink", outline="black")
+        pink_2_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340+80+15, 340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="pink", outline="black")
+        pink_3_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="pink", outline="black")
+        pink_4_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+60+40+15, 340 + (40 * 3) + 40 + 40,340+80+60+40+40+15, width=3, fill="pink", outline="black")
+        self.made_pink_coin.append(pink_1_coin)
+        self.made_pink_coin.append(pink_2_coin)
+        self.made_pink_coin.append(pink_3_coin)
+        self.made_pink_coin.append(pink_4_coin)
 
-        # Make coin under number label for yellow right down block
-        yellow_1_label = Label(self.make_canvas, text="1", font=("Arial", 15, "bold"), bg="yellow", fg="black")
-        yellow_1_label.place(x=340 + (40 * 3) + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
-        yellow_2_label = Label(self.make_canvas, text="2", font=("Arial", 15, "bold"), bg="yellow", fg="black")
-        yellow_2_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
-        yellow_3_label = Label(self.make_canvas, text="3", font=("Arial", 15, "bold"), bg="yellow", fg="black")
-        yellow_3_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=30 + (40 * 6) + (40 * 3) + 40 + 100 + 10)
-        yellow_4_label = Label(self.make_canvas, text="4", font=("Arial", 15, "bold"), bg="yellow", fg="black")
-        yellow_4_label.place(x=340 + (40 * 3) + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 100 + 10)
-        self.yellow_number_label.append(yellow_1_label)
-        self.yellow_number_label.append(yellow_2_label)
-        self.yellow_number_label.append(yellow_3_label)
-        self.yellow_number_label.append(yellow_4_label)
+        # Make coin under number label for pink right down block
+        pink_1_label = Label(self.make_canvas, text="1", font=("Arial", 15, "bold"), bg="pink", fg="black")
+        pink_1_label.place(x=340 + (40 * 3) + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
+        pink_2_label = Label(self.make_canvas, text="2", font=("Arial", 15, "bold"), bg="pink", fg="black")
+        pink_2_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=30 + (40 * 6) + (40 * 3) + 40 + 10)
+        pink_3_label = Label(self.make_canvas, text="3", font=("Arial", 15, "bold"), bg="pink", fg="black")
+        pink_3_label.place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=30 + (40 * 6) + (40 * 3) + 40 + 100 + 10)
+        pink_4_label = Label(self.make_canvas, text="4", font=("Arial", 15, "bold"), bg="pink", fg="black")
+        pink_4_label.place(x=340 + (40 * 3) + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 100 + 10)
+        self.pink_number_label.append(pink_1_label)
+        self.pink_number_label.append(pink_2_label)
+        self.pink_number_label.append(pink_3_label)
+        self.pink_number_label.append(pink_4_label)
 
-        # Make star safe zone
-        """
-                                              A
-                                           L  *  B
-                                   K *  *  *     *  *  * C
-                                        *           *
-                                        J *        * D
-                                       *            *
-                                  I*  *  *      *  *  * E
-                                         H   *   F
-                                             G
-        """
+
+       
+        #Making a STAR for the SAFEZONE(Whole Star = Right, Up ,Left, Down)
+        
         # Right star
         common_x = 340+(40*6)+20
         common_y = 15+240+2
@@ -385,10 +377,10 @@ class Ludo:
         top.geometry("530x300")
         top.maxsize(530,300)
         top.minsize(530,300)
-        top.config(bg="#141414")
+        top.config(bg="#92c1ec")
         top.iconbitmap("Images/ludo_icon.ico")
 
-        head = Label(top,text="-:Total number of players:- ",font=("Arial",25,"bold","italic"),bg="#141414",fg="chocolate")
+        head = Label(top,text="Enter the number of players",font=("Arial",25,"bold"),bg="#92c1ec",fg="Black")
         head.place(x=50,y=30)
         take_entry = Entry(top,font=("Arial",18,"bold","italic"),relief=SUNKEN,bd=5,width=12, state=DISABLED)
         take_entry.place(x=130,y=85)
@@ -409,11 +401,11 @@ class Ludo:
                 self.make_command()
                 top.destroy()
             else:
-                messagebox.showerror("Input Error", "Please input number of players between 2 and 4")
+                messagebox.showerror("Input Error", "input number between 2 and 4")
                 top.destroy()
                 self.take_initial_control()
 
-        submit_btn = Button(top,text="Submit",bg="#262626",fg="#00FF00",font=("Arial",13,"bold"),relief=RAISED,bd=3,command=filtering,state=DISABLED)
+        submit_btn = Button(top,text="Submit",bg="#262626",fg="#FFFFFF",font=("Arial",13,"bold"),relief=RAISED,bd=3,command=filtering,state=DISABLED)
         submit_btn.place(x=330,y=87)
 
         def operate(ind):
@@ -428,20 +420,20 @@ class Ludo:
                     if command_play['text'] != "":
                         command_play.place_forget()
                 
-                    place_ins['text'] = f"  Your game will start within {time_is} sec"
+                    place_ins['text'] = f"The game will start in {time_is} sec"
                     place_ins.place(x=20, y=220)
 
                     if time_is > 5:
-                        command_play['text'] = f"             Machine Play With Red and You Play With Sky Blue"
+                        command_play['text'] = f"             The machine uses red, and you use blue."
                     elif time_is>= 2 and time_is<5:
-                        command_play['text'] = f"                       You Will Get the First Chance to play"
+                        command_play['text'] = f"                     Ready.....Steady......"
                     else: 
-                        command_play['text'] = f"                                        Enjoy this Game"
+                        command_play['text'] = f"                                        GO"
                     command_play.place(x=10, y=260)
 
                 time_is = 10
-                place_ins = Label(top, text="", font=("Arial", 20, "bold"), fg="#FF0000", bg="#141414")
-                command_play = Label(top, text="", font=("Arial", 12, "bold"), fg="#af7439", bg="#141414")
+                place_ins = Label(top, text="", font=("Arial", 20, "bold"), fg="#000000", bg="#92c1ec")
+                command_play = Label(top, text="", font=("Arial", 12, "bold"), fg="red", bg="#92c1ec")
 
                 try:
                     while time_is:
@@ -457,10 +449,10 @@ class Ludo:
                 submit_btn['state'] = NORMAL
                 take_entry['state'] = NORMAL
         
-        mvc_btn = Button(top,text="Play With Computer",bg="#262626",fg="#00FF00",font=("Arial",15,"bold"),relief=RAISED,bd=3,command=lambda: operate(1), activebackground="#262626")
+        mvc_btn = Button(top,text="Play With Computer",bg="#FFFFFF",fg="#c90076",font=("Arial",15,"bold"),relief=RAISED,bd=3,command=lambda: operate(1), activebackground="#262626")
         mvc_btn.place(x=30,y=160)
 
-        mvh_btn = Button(top,text="Play With Friends",bg="#262626",fg="#00FF00",font=("Arial",15,"bold"),relief=RAISED,bd=3,command=lambda: operate(0), activebackground="#262626")
+        mvh_btn = Button(top,text="Play With Friends",bg="#FFFFFF",fg="#c90076",font=("Arial",15,"bold"),relief=RAISED,bd=3,command=lambda: operate(0), activebackground="#262626")
         mvh_btn.place(x=260,y=160)
 
         top.mainloop()
@@ -478,22 +470,22 @@ class Ludo:
                 else:    
                     permanent_block_number = self.move_red_counter = randint(1, 6)
 
-            elif color_indicator == "sky_blue":
+            elif color_indicator == "blue":
                 block_value_predict = self.block_value_predict[1]
-                permanent_block_number = self.move_sky_blue_counter = randint(1, 6)
+                permanent_block_number = self.move_blue_counter = randint(1, 6)
                 if self.robo_prem and permanent_block_number == 6:
                     for coin_loc in self.red_coin_position:
                         if coin_loc>=40 and coin_loc<=46:
-                            permanent_block_number = self.move_sky_blue_counter = randint(1, 5)
+                            permanent_block_number = self.move_blue_counter = randint(1, 5)
                             break
                             
-            elif color_indicator == "yellow":
+            elif color_indicator == "pink":
                 block_value_predict = self.block_value_predict[2]
-                permanent_block_number = self.move_yellow_counter = randint(1, 6)
+                permanent_block_number = self.move_pink_counter = randint(1, 6)
 
             else:
                 block_value_predict = self.block_value_predict[3]
-                permanent_block_number = self.move_green_counter = randint(1, 6)
+                permanent_block_number = self.move_grn_counter = randint(1, 6)
 
             block_value_predict[1]['state'] = DISABLED
 
@@ -522,11 +514,11 @@ class Ludo:
         if color_indicator == "red":
             temp_coin_position = self.red_coin_position
         elif color_indicator == "green":
-            temp_coin_position = self.green_coin_position
-        elif color_indicator == "yellow":
-            temp_coin_position = self.yellow_coin_position
+            temp_coin_position = self.grn_coin_position
+        elif color_indicator == "pink":
+            temp_coin_position = self.pink_coin_position
         else:
-            temp_coin_position = self.sky_blue_coin_position
+            temp_coin_position = self.blue_coin_position
 
         all_in = 1
         for i in range(4):
@@ -546,11 +538,11 @@ class Ludo:
             if color_indicator == "red":
                 temp = self.red_coord_store
             elif color_indicator == "green":
-                temp = self.green_coord_store
-            elif color_indicator == "yellow":
-                temp = self.yellow_coord_store
+                temp = self.grn_coord_store
+            elif color_indicator == "pink":
+                temp = self.pink_coord_store
             else:
-                temp = self.sky_blue_coord_store
+                temp = self.blue_coord_store
 
             if  permanent_block_number<6:
                 if self.six_with_overlap == 1:
@@ -624,7 +616,7 @@ class Ludo:
     def instruction_btn_red(self):
         block_predict_red = Label(self.make_canvas,image=self.block_number_side[0])
         block_predict_red.place(x=34,y=15)
-        predict_red = Button(self.make_canvas, bg="black", fg="#00FF00", relief=RAISED, bd=5, text="Predict", font=("Arial", 8, "bold"), command=lambda: self.make_prediction("red"))
+        predict_red = Button(self.make_canvas, bg="black", fg="#8fce73", relief=RAISED, bd=5, text="Predict", font=("Arial", 8, "bold"), command=lambda: self.make_prediction("red"))
         predict_red.place(x=25, y=15 + 50)
         
         btn_1 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="1",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("red",'1'), state=DISABLED, disabledforeground="red")
@@ -636,50 +628,50 @@ class Ludo:
         btn_4 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="4",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("red",'4'), state=DISABLED, disabledforeground="red")
         btn_4.place(x=60,y=15+100+40)
 
-        Label(self.make_canvas,text="Player 1",bg="#141414",fg="gold",font=("Arial",15,"bold")).place(x=15,y=15+140+50)
+        Label(self.make_canvas,text="Player 1",bg="#141414",fg="red",font=("Arial",15,"bold")).place(x=15,y=15+140+50)
         self.store_instructional_btn(block_predict_red,predict_red,[btn_1,btn_2,btn_3,btn_4])
 
-    def instruction_btn_sky_blue(self):
-        block_predict_sky_blue = Label(self.make_canvas, image=self.block_number_side[0])
-        block_predict_sky_blue.place(x=34, y=15+(40*6+40*3)+10)
-        predict_sky_blue = Button(self.make_canvas, bg="black", fg="#00FF00", relief=RAISED, bd=5, text="Predict",font=("Arial", 8, "bold"), command=lambda: self.make_prediction("sky_blue"))
-        predict_sky_blue.place(x=25, y=15+(40*6+40*3)+40 + 20)
+    def instruction_btn_blue(self):
+        block_predict_blue = Label(self.make_canvas, image=self.block_number_side[0])
+        block_predict_blue.place(x=34, y=15+(40*6+40*3)+10)
+        predict_blue = Button(self.make_canvas, bg="black", fg="#8fce73", relief=RAISED, bd=5, text="Predict",font=("Arial", 8, "bold"), command=lambda: self.make_prediction("blue"))
+        predict_blue.place(x=25, y=15+(40*6+40*3)+40 + 20)
 
-        btn_1 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="1",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("sky_blue",'1'), state=DISABLED, disabledforeground="red")
+        btn_1 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="1",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("blue",'1'), state=DISABLED, disabledforeground="red")
         btn_1.place(x=20,y=15+(40*6+40*3)+40 + 70)
-        btn_2 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="2",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("sky_blue",'2'), state=DISABLED, disabledforeground="red")
+        btn_2 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="2",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("blue",'2'), state=DISABLED, disabledforeground="red")
         btn_2.place(x=60,y=15+(40*6+40*3)+40 + 70)
-        btn_3 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="3",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("sky_blue",'3'), state=DISABLED, disabledforeground="red")
+        btn_3 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="3",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("blue",'3'), state=DISABLED, disabledforeground="red")
         btn_3.place(x=20,y=15+(40*6+40*3)+40 + 70+ 40)
-        btn_4 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="4",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("sky_blue",'4'), state=DISABLED, disabledforeground="red")
+        btn_4 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="4",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("blue",'4'), state=DISABLED, disabledforeground="red")
         btn_4.place(x=60,y=15+(40*6+40*3)+40 + 70+ 40)
 
-        Label(self.make_canvas, text="Player 2", bg="#141414", fg="gold", font=("Arial", 15, "bold")).place(x=12,y=15+(40*6+40*3)+40 + 110+50)
-        self.store_instructional_btn(block_predict_sky_blue, predict_sky_blue, [btn_1,btn_2,btn_3,btn_4])
+        Label(self.make_canvas, text="Player 2", bg="#141414", fg="red", font=("Arial", 15, "bold")).place(x=12,y=15+(40*6+40*3)+40 + 110+50)
+        self.store_instructional_btn(block_predict_blue, predict_blue, [btn_1,btn_2,btn_3,btn_4])
 
-    def instruction_btn_yellow(self):
-        block_predict_yellow = Label(self.make_canvas, image=self.block_number_side[0])
-        block_predict_yellow.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 10)+20, y=15 + (40 * 6 + 40 * 3) + 10)
-        predict_yellow = Button(self.make_canvas, bg="black", fg="#00FF00", relief=RAISED, bd=5, text="Predict",font=("Arial", 8, "bold"), command=lambda: self.make_prediction("yellow"))
-        predict_yellow.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+20, y=15 + (40 * 6 + 40 * 3) + 40 + 20)
+    def instruction_btn_pink(self):
+        block_predict_pink = Label(self.make_canvas, image=self.block_number_side[0])
+        block_predict_pink.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 10)+20, y=15 + (40 * 6 + 40 * 3) + 10)
+        predict_pink = Button(self.make_canvas, bg="black", fg="#8fce73", relief=RAISED, bd=5, text="Predict",font=("Arial", 8, "bold"), command=lambda: self.make_prediction("pink"))
+        predict_pink.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+20, y=15 + (40 * 6 + 40 * 3) + 40 + 20)
         
-        btn_1 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="1",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("yellow",'1'), state=DISABLED, disabledforeground="red")
+        btn_1 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="1",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("pink",'1'), state=DISABLED, disabledforeground="red")
         btn_1.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+15, y=15 + (40 * 6 + 40 * 3) + 40 + 70)
-        btn_2 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="2",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("yellow",'2'), state=DISABLED, disabledforeground="red")
+        btn_2 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="2",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("pink",'2'), state=DISABLED, disabledforeground="red")
         btn_2.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+15 + 40, y=15 + (40 * 6 + 40 * 3) + 40 + 70)
-        btn_3 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="3",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("yellow",'3'), state=DISABLED, disabledforeground="red")
+        btn_3 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="3",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("pink",'3'), state=DISABLED, disabledforeground="red")
         btn_3.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+15, y=15 + (40 * 6 + 40 * 3) + 40 + 70+ 40)
-        btn_4 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="4",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("yellow",'4'), state=DISABLED, disabledforeground="red")
+        btn_4 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="4",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("pink",'4'), state=DISABLED, disabledforeground="red")
         btn_4.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+15 + 40, y=15 + (40 * 6 + 40 * 3) + 40 + 70+ 40)
         
-        Label(self.make_canvas, text="Player 3", bg="#141414", fg="gold", font=("Arial", 15, "bold")).place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 +7),y=15+(40*6+40*3)+40 + 110+50)
-        self.store_instructional_btn(block_predict_yellow, predict_yellow, [btn_1,btn_2,btn_3,btn_4])
+        Label(self.make_canvas, text="Player 3", bg="#141414", fg="red", font=("Arial", 15, "bold")).place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 +7),y=15+(40*6+40*3)+40 + 110+50)
+        self.store_instructional_btn(block_predict_pink, predict_pink, [btn_1,btn_2,btn_3,btn_4])
 
-    def instruction_btn_green(self):
-        block_predict_green = Label(self.make_canvas, image=self.block_number_side[0])
-        block_predict_green.place(x=100+(40*6+40*3+40*6+10)+20, y=15)
-        predict_green = Button(self.make_canvas, bg="black", fg="#00FF00", relief=RAISED, bd=5, text="Predict", font=("Arial", 8, "bold"), command=lambda: self.make_prediction("green"))
-        predict_green.place(x=100+(40*6+40*3+40*6+2)+20, y=15 + 50)
+    def instruction_btn_grn(self):
+        block_predict_grn = Label(self.make_canvas, image=self.block_number_side[0])
+        block_predict_grn.place(x=100+(40*6+40*3+40*6+10)+20, y=15)
+        predict_grn = Button(self.make_canvas, bg="black", fg="#8fce73", relief=RAISED, bd=5, text="Predict", font=("Arial", 8, "bold"), command=lambda: self.make_prediction("green"))
+        predict_grn.place(x=100+(40*6+40*3+40*6+2)+20, y=15 + 50)
         
         btn_1 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="1",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("green",'1'), state=DISABLED, disabledforeground="red")
         btn_1.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+15,y=15+100)
@@ -690,18 +682,19 @@ class Ludo:
         btn_4 = Button(self.make_canvas,bg="#262626",fg="#00eb00",text="4",font=("Arial",13,"bold","italic"),relief=RAISED,bd=3,command=lambda: self.main_controller("green",'4'), state=DISABLED, disabledforeground="red")
         btn_4.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 2)+15 + 40,y=15+100+40)
         
-        Label(self.make_canvas, text="Player 4", bg="#141414", fg="gold", font=("Arial", 15, "bold")).place(x=100+(40*6+40*3+40*6+7), y=15+140+50)
-        self.store_instructional_btn(block_predict_green, predict_green, [btn_1,btn_2,btn_3,btn_4])
+        Label(self.make_canvas, text="Player 4", bg="#141414", fg="red", font=("Arial", 15, "bold")).place(x=100+(40*6+40*3+40*6+7), y=15+140+50)
+        self.store_instructional_btn(block_predict_grn, predict_grn, [btn_1,btn_2,btn_3,btn_4])
 
         hint_button = Button(self.make_canvas, text="Hint", bg="red", fg="white", font=("Arial", 13, "bold"), 
                          relief=RAISED, bd=3, command=self.show_hint)
         hint_button.place(x=100 + (40 * 6 + 40 * 3 + 40 * 6 + 7), y=15 + 140 + 150)
 
-        self.store_instructional_btn(block_predict_green, predict_green, [btn_1, btn_2, btn_3, btn_4])
+        self.store_instructional_btn(block_predict_grn, predict_grn, [btn_1, btn_2, btn_3, btn_4])
 
 
 
     def show_hint(self):
+        
         current_player = "red"  # Assume it's red's turn for this example
 
         # Get the AI-predicted best move for the player
@@ -717,11 +710,11 @@ class Ludo:
         if color == "red":
             coin_positions = self.red_coin_position
         elif color == "green":
-            coin_positions = self.green_coin_position
-        elif color == "yellow":
-            coin_positions = self.yellow_coin_position
-        else:  color== "sky_blue"
-        coin_positions = self.sky_blue_coin_position
+            coin_positions = self.grn_coin_position
+        elif color == "pink":
+            coin_positions = self.pink_coin_position
+        else:  color== "blue"
+        coin_positions = self.blue_coin_position
 
         # Evaluate the risk of each coin
         risks = self.evaluate_risks(color)
@@ -753,9 +746,9 @@ class Ludo:
 
 #     def get_game_state(self):
 #     # Example: list of coin positions, current player turn, etc.
-#         return [self.red_coin_position, self.green_coin_position, self.yellow_coin_position, self.sky_blue_coin_position, self.current_player]
+#         return [self.red_coin_position, self.green_coin_position, self.pink_coin_position, self.sky_blue_coin_position, self.current_player]
  
-#     class MCTSNode:
+    #  class MCTSNode:
 #      def __init__(self, state, parent=None):
 #         self.state = state
 #         self.parent = parent
@@ -823,13 +816,13 @@ class Ludo:
     def evaluate_risks(self, color):
         # Calculate risks based on opponent positions
         if color == "red":
-            opponent_positions = self.green_coin_position + self.yellow_coin_position + self.sky_blue_coin_position
+            opponent_positions = self.grn_coin_position + self.pink_coin_position + self.blue_coin_position
         elif color == "green":
-            opponent_positions = self.red_coin_position + self.yellow_coin_position + self.sky_blue_coin_position
-        elif color == "yellow":
-            opponent_positions = self.red_coin_position + self.green_coin_position + self.sky_blue_coin_position
+            opponent_positions = self.red_coin_position + self.pink_coin_position + self.blue_coin_position
+        elif color == "pink":
+            opponent_positions = self.red_coin_position + self.grn_coin_position + self.blue_coin_position
         else:
-            opponent_positions = self.red_coin_position + self.green_coin_position + self.yellow_coin_position
+            opponent_positions = self.red_coin_position + self.grn_coin_position + self.pink_coin_position
 
         risks = []
         for i, position in enumerate(opponent_positions):
@@ -859,11 +852,11 @@ class Ludo:
         new_position = position + roll
         reward = 0
 
-        # Prioritize moves that bring the coin closer to the home zone
-        if new_position >= 106:  # Assume 106 is the home
-            reward += 10  # High reward for reaching home
+        # Moves that advance the coin closer to the home zone should be given priority.
+        if new_position >= 106:  
+            reward += 10  
         elif new_position >= 50:
-            reward += 5  # Mid-level reward for getting closer to home
+            reward += 5  
 
         # Penalize moves that put the coin at risk of being captured
         if risk > 0:
@@ -891,42 +884,42 @@ class Ludo:
         self.window.update()
         time.sleep(0.2)
 
-    def green_circle_start_position(self,coin_number):
-        self.make_canvas.delete(self.made_green_coin[int(coin_number)-1])
-        self.made_green_coin[int(coin_number)-1] = self.make_canvas.create_oval(100 + (40*8), 15 + 40, 100 +(40*9), 15 + 40+ 40, fill="#00FF00", width=3)
+    def grn_circle_start_position(self,coin_number):
+        self.make_canvas.delete(self.made_grn_coin[int(coin_number)-1])
+        self.made_grn_coin[int(coin_number)-1] = self.make_canvas.create_oval(100 + (40*8), 15 + 40, 100 +(40*9), 15 + 40+ 40, fill="#8fce73", width=3)
 
-        self.green_number_label[int(coin_number)-1].place_forget()
-        green_start_label_x = 100 + (40*8) + 10
-        green_start_label_y = 15 + 40 + 5
-        self.green_number_label[int(coin_number)-1].place(x=green_start_label_x, y=green_start_label_y)
+        self.grn_number_label[int(coin_number)-1].place_forget()
+        grn_start_label_x = 100 + (40*8) + 10
+        grn_start_label_y = 15 + 40 + 5
+        self.grn_number_label[int(coin_number)-1].place(x=grn_start_label_x, y=grn_start_label_y)
 
-        self.green_coin_position[int(coin_number)-1] = 14
+        self.grn_coin_position[int(coin_number)-1] = 14
         self.window.update()
         time.sleep(0.2)
 
-    def yellow_circle_start_position(self,coin_number):
-        self.make_canvas.delete(self.made_yellow_coin[int(coin_number)-1])
-        self.made_yellow_coin[int(coin_number)-1] = self.make_canvas.create_oval(100 + (40 * 6)+(40*3)+(40*4), 15 + (40*8), 100 + (40 * 6)+(40*3)+(40*5), 15 + (40*9), fill="yellow", width=3)
+    def pink_circle_start_position(self,coin_number):
+        self.make_canvas.delete(self.made_pink_coin[int(coin_number)-1])
+        self.made_pink_coin[int(coin_number)-1] = self.make_canvas.create_oval(100 + (40 * 6)+(40*3)+(40*4), 15 + (40*8), 100 + (40 * 6)+(40*3)+(40*5), 15 + (40*9), fill="pink", width=3)
 
-        self.yellow_number_label[int(coin_number)-1].place_forget()
-        yellow_start_label_x = 100 + (40 * 6)+(40*3)+(40*4) + 10
-        yellow_start_label_y = 15 + (40*8) + 5
-        self.yellow_number_label[int(coin_number) - 1].place(x=yellow_start_label_x, y=yellow_start_label_y)
+        self.pink_number_label[int(coin_number)-1].place_forget()
+        pink_start_label_x = 100 + (40 * 6)+(40*3)+(40*4) + 10
+        pink_start_label_y = 15 + (40*8) + 5
+        self.pink_number_label[int(coin_number) - 1].place(x=pink_start_label_x, y=pink_start_label_y)
 
-        self.yellow_coin_position[int(coin_number) - 1] = 27
+        self.pink_coin_position[int(coin_number) - 1] = 27
         self.window.update()
         time.sleep(0.2)
 
-    def sky_blue_circle_start_position(self,coin_number):
-        self.make_canvas.delete(self.made_sky_blue_coin[int(coin_number)-1])
-        self.made_sky_blue_coin[int(coin_number)-1] = self.make_canvas.create_oval(100+240,340+(40*5)-5,100+240+40,340+(40*6)-5,fill="#04d9ff",width=3)
+    def blue_circle_start_position(self,coin_number):
+        self.make_canvas.delete(self.made_blue_coin[int(coin_number)-1])
+        self.made_blue_coin[int(coin_number)-1] = self.make_canvas.create_oval(100+240,340+(40*5)-5,100+240+40,340+(40*6)-5,fill="#073763",width=3)
 
-        self.sky_blue_number_label[int(coin_number)-1].place_forget()
-        sky_blue_start_label_x = 100+240 + 10
-        sky_blue_start_label_y = 340+(40*5)-5 + 5
-        self.sky_blue_number_label[int(coin_number) - 1].place(x=sky_blue_start_label_x, y=sky_blue_start_label_y)
+        self.blue_number_label[int(coin_number)-1].place_forget()
+        blue_start_label_x = 100+240 + 10
+        blue_start_label_y = 340+(40*5)-5 + 5
+        self.blue_number_label[int(coin_number) - 1].place(x=blue_start_label_x, y=blue_start_label_y)
 
-        self.sky_blue_coin_position[int(coin_number) - 1] = 40
+        self.blue_coin_position[int(coin_number) - 1] = 40
         self.window.update()
         time.sleep(0.2)
 
@@ -982,7 +975,7 @@ class Ludo:
                 self.red_coord_store[int(coin_number)-1] = self.red_coin_position[int(coin_number)-1]
 
             else:
-                messagebox.showerror("Wrong choice","Sorry, Your coin in not permitted to travel")
+                messagebox.showerror("Ooops","your coin cannot travel.")
                 self.num_btns_state_controller(self.block_value_predict[0][2])
 
                 if self.robo_prem == 1:
@@ -996,127 +989,127 @@ class Ludo:
         elif color_coin == "green":
             self.num_btns_state_controller(self.block_value_predict[3][2], 0)
 
-            if self.move_green_counter == 106:
+            if self.move_grn_counter == 106:
                 messagebox.showwarning("Destination reached","Reached at the destination")
 
-            elif self.green_coin_position[int(coin_number) - 1] == -1 and self.move_green_counter == 6:
-                self.green_circle_start_position(coin_number)
-                self.green_coord_store[int(coin_number) - 1] = 14
+            elif self.grn_coin_position[int(coin_number) - 1] == -1 and self.move_grn_counter == 6:
+                self.grn_circle_start_position(coin_number)
+                self.grn_coord_store[int(coin_number) - 1] = 14
 
-            elif self.green_coin_position[int(coin_number) - 1] > -1:
-                take_coord = self.make_canvas.coords(self.made_green_coin[int(coin_number) - 1])
-                green_start_label_x = take_coord[0] + 10
-                green_start_label_y = take_coord[1] + 5
-                self.green_number_label[int(coin_number) - 1].place(x=green_start_label_x, y=green_start_label_y)
+            elif self.grn_coin_position[int(coin_number) - 1] > -1:
+                take_coord = self.make_canvas.coords(self.made_grn_coin[int(coin_number) - 1])
+                grn_start_label_x = take_coord[0] + 10
+                grn_start_label_y = take_coord[1] + 5
+                self.grn_number_label[int(coin_number) - 1].place(x=grn_start_label_x, y=grn_start_label_y)
 
 
-                if  self.green_coin_position[int(coin_number) - 1] + self.move_green_counter <= 106:
-                    self.green_coin_position[int(coin_number) - 1] = self.motion_of_coin(self.green_coin_position[int(coin_number) - 1], self.made_green_coin[int(coin_number) - 1], self.green_number_label[int(coin_number) - 1], green_start_label_x, green_start_label_y, "green", self.move_green_counter)
+                if  self.grn_coin_position[int(coin_number) - 1] + self.move_grn_counter <= 106:
+                    self.grn_coin_position[int(coin_number) - 1] = self.motion_of_coin(self.grn_coin_position[int(coin_number) - 1], self.made_grn_coin[int(coin_number) - 1], self.grn_number_label[int(coin_number) - 1], grn_start_label_x, grn_start_label_y, "green", self.move_grn_counter)
                 else:
                    messagebox.showerror("Not possible","No path available")
                    self.num_btns_state_controller(self.block_value_predict[3][2])
                    return
 
 
-                if  self.green_coin_position[int(coin_number)-1]==22 or self.green_coin_position[int(coin_number)-1]==9 or self.green_coin_position[int(coin_number)-1]==48 or self.green_coin_position[int(coin_number)-1]==35 or self.green_coin_position[int(coin_number)-1]==1 or self.green_coin_position[int(coin_number)-1]==27 or self.green_coin_position[int(coin_number)-1]==40 or self.green_coin_position[int(coin_number)-1]==14:
+                if  self.grn_coin_position[int(coin_number)-1]==22 or self.grn_coin_position[int(coin_number)-1]==9 or self.grn_coin_position[int(coin_number)-1]==48 or self.grn_coin_position[int(coin_number)-1]==35 or self.grn_coin_position[int(coin_number)-1]==1 or self.grn_coin_position[int(coin_number)-1]==27 or self.grn_coin_position[int(coin_number)-1]==40 or self.grn_coin_position[int(coin_number)-1]==14:
                     pass
                 else:
-                    if self.green_coin_position[int(coin_number) - 1] < 100:
-                        self.coord_overlap(self.green_coin_position[int(coin_number) - 1],color_coin, self.move_green_counter)
+                    if self.grn_coin_position[int(coin_number) - 1] < 100:
+                        self.coord_overlap(self.grn_coin_position[int(coin_number) - 1],color_coin, self.move_grn_counter)
 
-                self.green_coord_store[int(coin_number) - 1] = self.green_coin_position[int(coin_number) - 1]
+                self.grn_coord_store[int(coin_number) - 1] = self.grn_coin_position[int(coin_number) - 1]
 
             else:
-                messagebox.showerror("Wrong choice", "Sorry, Your coin in not permitted to travel")
+                messagebox.showerror("Ooops", "your coin cannot travel.")
                 self.num_btns_state_controller(self.block_value_predict[3][2])
                 return
 
             self.block_value_predict[3][1]['state'] = NORMAL
 
-        elif color_coin == "yellow":
+        elif color_coin == "pink":
             
             self.num_btns_state_controller(self.block_value_predict[2][2], 0)
 
-            if self.move_yellow_counter == 106:
+            if self.move_pink_counter == 106:
                 messagebox.showwarning("Destination reached","Reached at the destination")
 
-            elif self.yellow_coin_position[int(coin_number) - 1] == -1 and self.move_yellow_counter == 6:
-                self.yellow_circle_start_position(coin_number)
-                self.yellow_coord_store[int(coin_number) - 1] = 27
+            elif self.pink_coin_position[int(coin_number) - 1] == -1 and self.move_pink_counter == 6:
+                self.pink_circle_start_position(coin_number)
+                self.pink_coord_store[int(coin_number) - 1] = 27
 
-            elif self.yellow_coin_position[int(coin_number) - 1] > -1:
-                take_coord = self.make_canvas.coords(self.made_yellow_coin[int(coin_number) - 1])
-                yellow_start_label_x = take_coord[0] + 10
-                yellow_start_label_y = take_coord[1] + 5
-                self.yellow_number_label[int(coin_number) - 1].place(x=yellow_start_label_x, y=yellow_start_label_y)
+            elif self.pink_coin_position[int(coin_number) - 1] > -1:
+                take_coord = self.make_canvas.coords(self.made_pink_coin[int(coin_number) - 1])
+                pink_start_label_x = take_coord[0] + 10
+                pink_start_label_y = take_coord[1] + 5
+                self.pink_number_label[int(coin_number) - 1].place(x=pink_start_label_x, y=pink_start_label_y)
 
-                if  self.yellow_coin_position[int(coin_number) - 1] + self.move_yellow_counter <= 106:
-                    self.yellow_coin_position[int(coin_number) - 1] = self.motion_of_coin(self.yellow_coin_position[int(coin_number) - 1], self.made_yellow_coin[int(coin_number) - 1], self.yellow_number_label[int(coin_number) - 1], yellow_start_label_x, yellow_start_label_y, "yellow", self.move_yellow_counter)
+                if  self.pink_coin_position[int(coin_number) - 1] + self.move_pink_counter <= 106:
+                    self.pink_coin_position[int(coin_number) - 1] = self.motion_of_coin(self.pink_coin_position[int(coin_number) - 1], self.made_pink_coin[int(coin_number) - 1], self.pink_number_label[int(coin_number) - 1], pink_start_label_x, pink_start_label_y, "pink", self.move_pink_counter)
                 else:
                    messagebox.showerror("Not possible","No path available")
                    
                    self.num_btns_state_controller(self.block_value_predict[2][2])
                    return
 
-                if  self.yellow_coin_position[int(coin_number)-1]==22 or self.yellow_coin_position[int(coin_number)-1]==9 or self.yellow_coin_position[int(coin_number)-1]==48 or self.yellow_coin_position[int(coin_number)-1]==35 or self.yellow_coin_position[int(coin_number)-1]==1 or self.yellow_coin_position[int(coin_number)-1]==14 or self.yellow_coin_position[int(coin_number)-1]==40 or self.yellow_coin_position[int(coin_number)-1]==27:
+                if  self.pink_coin_position[int(coin_number)-1]==22 or self.pink_coin_position[int(coin_number)-1]==9 or self.pink_coin_position[int(coin_number)-1]==48 or self.pink_coin_position[int(coin_number)-1]==35 or self.pink_coin_position[int(coin_number)-1]==1 or self.pink_coin_position[int(coin_number)-1]==14 or self.pink_coin_position[int(coin_number)-1]==40 or self.pink_coin_position[int(coin_number)-1]==27:
                     pass
                 else:
-                    if self.yellow_coin_position[int(coin_number) - 1] < 100:
-                        self.coord_overlap(self.yellow_coin_position[int(coin_number) - 1],color_coin, self.move_yellow_counter)
+                    if self.pink_coin_position[int(coin_number) - 1] < 100:
+                        self.coord_overlap(self.pink_coin_position[int(coin_number) - 1],color_coin, self.move_pink_counter)
 
-                self.yellow_coord_store[int(coin_number) - 1] = self.yellow_coin_position[int(coin_number) - 1]
+                self.pink_coord_store[int(coin_number) - 1] = self.pink_coin_position[int(coin_number) - 1]
 
             else:
-                messagebox.showerror("Wrong choice", "Sorry, Your coin in not permitted to travel")
+                messagebox.showerror("Ooops", "your coin cannot travel")
                 self.num_btns_state_controller(self.block_value_predict[2][2])
                 return
 
             self.block_value_predict[2][1]['state'] = NORMAL
 
  
-        elif color_coin == "sky_blue":
+        elif color_coin == "blue":
             self.num_btns_state_controller(self.block_value_predict[1][2], 0)   
 
             if self.move_red_counter == 106:
                 messagebox.showwarning("Destination reached","Reached at the destination")
 
-            elif self.sky_blue_coin_position[int(coin_number) - 1] == -1 and self.move_sky_blue_counter == 6:
-                self.sky_blue_circle_start_position(coin_number)
-                self.sky_blue_coord_store[int(coin_number) - 1] = 40
+            elif self.blue_coin_position[int(coin_number) - 1] == -1 and self.move_blue_counter == 6:
+                self.blue_circle_start_position(coin_number)
+                self.blue_coord_store[int(coin_number) - 1] = 40
 
-            elif self.sky_blue_coin_position[int(coin_number) - 1] > -1:
-                take_coord = self.make_canvas.coords(self.made_sky_blue_coin[int(coin_number) - 1])
-                sky_blue_start_label_x = take_coord[0] + 10
-                sky_blue_start_label_y = take_coord[1] + 5
-                self.sky_blue_number_label[int(coin_number) - 1].place(x=sky_blue_start_label_x, y=sky_blue_start_label_y)
+            elif self.blue_coin_position[int(coin_number) - 1] > -1:
+                take_coord = self.make_canvas.coords(self.made_blue_coin[int(coin_number) - 1])
+                blue_start_label_x = take_coord[0] + 10
+                blue_start_label_y = take_coord[1] + 5
+                self.blue_number_label[int(coin_number) - 1].place(x=blue_start_label_x, y=blue_start_label_y)
 
-                if  self.sky_blue_coin_position[int(coin_number) - 1] + self.move_sky_blue_counter <= 106:
-                    self.sky_blue_coin_position[int(coin_number) - 1] = self.motion_of_coin(self.sky_blue_coin_position[int(coin_number) - 1], self.made_sky_blue_coin[int(coin_number) - 1], self.sky_blue_number_label[int(coin_number) - 1], sky_blue_start_label_x, sky_blue_start_label_y, "sky_blue", self.move_sky_blue_counter)
+                if  self.blue_coin_position[int(coin_number) - 1] + self.move_blue_counter <= 106:
+                    self.blue_coin_position[int(coin_number) - 1] = self.motion_of_coin(self.blue_coin_position[int(coin_number) - 1], self.made_blue_coin[int(coin_number) - 1], self.blue_number_label[int(coin_number) - 1], blue_start_label_x, blue_start_label_y, "blue", self.move_blue_counter)
                 else:
                    messagebox.showerror("Not possible","No path available")
                    
                    self.num_btns_state_controller(self.block_value_predict[1][2])
                    return
 
-                if  self.sky_blue_coin_position[int(coin_number)-1]==22 or self.sky_blue_coin_position[int(coin_number)-1]==9 or self.sky_blue_coin_position[int(coin_number)-1]==48 or self.sky_blue_coin_position[int(coin_number)-1]==35 or self.sky_blue_coin_position[int(coin_number)-1]==1 or self.sky_blue_coin_position[int(coin_number)-1]==14 or self.sky_blue_coin_position[int(coin_number)-1]==27 or self.sky_blue_coin_position[int(coin_number)-1]==40:
+                if  self.blue_coin_position[int(coin_number)-1]==22 or self.blue_coin_position[int(coin_number)-1]==9 or self.blue_coin_position[int(coin_number)-1]==48 or self.blue_coin_position[int(coin_number)-1]==35 or self.blue_coin_position[int(coin_number)-1]==1 or self.blue_coin_position[int(coin_number)-1]==14 or self.blue_coin_position[int(coin_number)-1]==27 or self.blue_coin_position[int(coin_number)-1]==40:
                     pass
                 else:
-                    if self.sky_blue_coin_position[int(coin_number) - 1] < 100:
-                        self.coord_overlap(self.sky_blue_coin_position[int(coin_number) - 1],color_coin, self.move_sky_blue_counter)
+                    if self.blue_coin_position[int(coin_number) - 1] < 100:
+                        self.coord_overlap(self.blue_coin_position[int(coin_number) - 1],color_coin, self.move_blue_counter)
 
-                self.sky_blue_coord_store[int(coin_number) - 1] = self.sky_blue_coin_position[int(coin_number) - 1]
+                self.blue_coord_store[int(coin_number) - 1] = self.blue_coin_position[int(coin_number) - 1]
 
             else:
-                messagebox.showerror("Wrong choice", "Sorry, Your coin in not permitted to travel")
+                messagebox.showerror("Ooops", "your coin cannot travel")
                 self.num_btns_state_controller(self.block_value_predict[1][2])
                 return
 
             self.block_value_predict[1][1]['state'] = NORMAL
 
         print(self.red_coord_store)
-        print(self.green_coord_store)
-        print(self.yellow_coord_store)
-        print(self.sky_blue_coord_store)
+        print(self.grn_coord_store)
+        print(self.pink_coord_store)
+        print(self.blue_coord_store)
         if self.robo_prem == 1:
             print("Robo Store is: ", self.robo_store)
         
@@ -1124,11 +1117,11 @@ class Ludo:
 
         if  color_coin == "red" and self.red_coin_position[int(coin_number)-1] == 106:
             permission_granted_to_proceed = self.check_winner_and_runner(color_coin)
-        elif  color_coin == "green" and self.green_coin_position[int(coin_number)-1] == 106:
+        elif  color_coin == "green" and self.grn_coin_position[int(coin_number)-1] == 106:
             permission_granted_to_proceed = self.check_winner_and_runner(color_coin)
-        elif  color_coin == "yellow" and self.yellow_coin_position[int(coin_number)-1] == 106:
+        elif  color_coin == "pink" and self.pink_coin_position[int(coin_number)-1] == 106:
             permission_granted_to_proceed = self.check_winner_and_runner(color_coin)
-        elif  color_coin == "sky_blue" and self.sky_blue_coin_position[int(coin_number)-1] == 106:
+        elif  color_coin == "blue" and self.blue_coin_position[int(coin_number)-1] == 106:
             permission_granted_to_proceed = self.check_winner_and_runner(color_coin)
 
         if permission_granted_to_proceed:# if that is False, Game is over and not proceed more
@@ -1140,7 +1133,7 @@ class Ludo:
             while True:
                 if path_counter == 0:
                     break
-                elif (counter_coin == 51 and color_coin == "red") or (counter_coin==12 and color_coin == "green") or (counter_coin == 25 and color_coin == "yellow") or (counter_coin == 38 and color_coin == "sky_blue") or counter_coin>=100:
+                elif (counter_coin == 51 and color_coin == "red") or (counter_coin==12 and color_coin == "green") or (counter_coin == 25 and color_coin == "pink") or (counter_coin == 38 and color_coin == "blue") or counter_coin>=100:
                     if counter_coin<100:
                         counter_coin=100
 
@@ -1266,89 +1259,89 @@ class Ludo:
                     self.made_red_coin[take_coin_number]=remade_coin
 
         if  color_coin != "green":
-            for take_coin_number in range(len(self.green_coord_store)):
-                if  self.green_coord_store[take_coin_number] == counter_coin:
+            for take_coin_number in range(len(self.grn_coord_store)):
+                if  self.grn_coord_store[take_coin_number] == counter_coin:
                     if path_to_traverse_before_overlap == 6:
                         self.six_with_overlap = 1
                     else:
                         self.time_for-=1
 
-                    self.make_canvas.delete(self.made_green_coin[take_coin_number])
-                    self.green_number_label[take_coin_number].place_forget()
-                    self.green_coin_position[take_coin_number] = -1
-                    self.green_coord_store[take_coin_number] = -1
+                    self.make_canvas.delete(self.made_grn_coin[take_coin_number])
+                    self.grn_number_label[take_coin_number].place_forget()
+                    self.grn_coin_position[take_coin_number] = -1
+                    self.grn_coord_store[take_coin_number] = -1
 
                     if take_coin_number == 0:
-                        remade_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40, 340+(40*3)+40 + 40, 15 + 40 + 40, width=3, fill="#00FF00", outline="black")
-                        self.green_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 10, y=15 + 40 + 5)
+                        remade_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40, 340+(40*3)+40 + 40, 15 + 40 + 40, width=3, fill="#8fce73", outline="black")
+                        self.grn_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 10, y=15 + 40 + 5)
                     elif take_coin_number == 1:
-                        remade_coin = self.make_canvas.create_oval(340+(40*3)+40+ 60 + 40+20, 15 + 40, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40, width=3, fill="#00FF00", outline="black")
-                        self.green_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 5)
+                        remade_coin = self.make_canvas.create_oval(340+(40*3)+40+ 60 + 40+20, 15 + 40, 340+(40*3)+40 + 60 + 40 + 40+20, 15 + 40 + 40, width=3, fill="#8fce73", outline="black")
+                        self.grn_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 5)
                     elif take_coin_number == 2:
-                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 15 + 40 + 100, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 15 + 40 + 40 + 100, width=3, fill="#00FF00", outline="black")
-                        self.green_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 100 + 5)
+                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 15 + 40 + 100, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 15 + 40 + 40 + 100, width=3, fill="#8fce73", outline="black")
+                        self.grn_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 40 + 60 + 30, y=15 + 40 + 100 + 5)
                     else:
-                        remade_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40 + 100, 340+(40*3)+40 + 40, 15 + 40 + 40 + 100, width=3, fill="#00FF00", outline="black")
-                        self.green_number_label[take_coin_number].place(x=340+(40*3) + 40 + 10, y=15 + 40 + 100 + 5)
+                        remade_coin = self.make_canvas.create_oval(340+(40*3)+40, 15 + 40 + 100, 340+(40*3)+40 + 40, 15 + 40 + 40 + 100, width=3, fill="#8fce73", outline="black")
+                        self.grn_number_label[take_coin_number].place(x=340+(40*3) + 40 + 10, y=15 + 40 + 100 + 5)
 
-                    self.made_green_coin[take_coin_number] = remade_coin
+                    self.made_grn_coin[take_coin_number] = remade_coin
 
 
-        if  color_coin != "yellow":
-            for take_coin_number in range(len(self.yellow_coord_store)):
-                if  self.yellow_coord_store[take_coin_number] == counter_coin:
+        if  color_coin != "pink":
+            for take_coin_number in range(len(self.pink_coord_store)):
+                if  self.pink_coord_store[take_coin_number] == counter_coin:
                     if path_to_traverse_before_overlap == 6:
                         self.six_with_overlap = 1
                     else:
                         self.time_for -= 1
 
-                    self.make_canvas.delete(self.made_yellow_coin[take_coin_number])
-                    self.yellow_number_label[take_coin_number].place_forget()
-                    self.yellow_coin_position[take_coin_number] = -1
-                    self.yellow_coord_store[take_coin_number] = -1
+                    self.make_canvas.delete(self.made_pink_coin[take_coin_number])
+                    self.pink_number_label[take_coin_number].place_forget()
+                    self.pink_coin_position[take_coin_number] = -1
+                    self.pink_coord_store[take_coin_number] = -1
 
                     if take_coin_number == 0:
-                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+15, 340 + (40 * 3) + 40 + 40, 340+80+40+15, width=3, fill="yellow", outline="black")
-                        self.yellow_number_label[take_coin_number].place(x=340+(40*3) + 40 + 10, y=30 + (40*6)+(40*3)+40+10)
+                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+15, 340 + (40 * 3) + 40 + 40, 340+80+40+15, width=3, fill="pink", outline="black")
+                        self.pink_number_label[take_coin_number].place(x=340+(40*3) + 40 + 10, y=30 + (40*6)+(40*3)+40+10)
                     elif take_coin_number == 1:
-                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340+80+15, 340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="yellow", outline="black")
-                        self.yellow_number_label[take_coin_number].place(x=340+(40*3)+ 40 + 40+ 60 + 30, y=30 + (40*6)+(40*3)+40+10)
+                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340+80+15, 340 + (40 * 3) + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="pink", outline="black")
+                        self.pink_number_label[take_coin_number].place(x=340+(40*3)+ 40 + 40+ 60 + 30, y=30 + (40*6)+(40*3)+40+10)
                     elif take_coin_number == 2:
-                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="yellow", outline="black")
-                        self.yellow_number_label[take_coin_number].place(x=340+(40*3)+ 40 + 40+ 60 + 30, y=30 + (40*6)+(40*3)+40+100+10)
+                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 340 + (40 * 3) + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="pink", outline="black")
+                        self.pink_number_label[take_coin_number].place(x=340+(40*3)+ 40 + 40+ 60 + 30, y=30 + (40*6)+(40*3)+40+100+10)
                     else:
-                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+60+40+15, 340 + (40 * 3) + 40 + 40,340+80+60+40+40+15, width=3, fill="yellow", outline="black")
-                        self.yellow_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 100 + 10)
+                        remade_coin = self.make_canvas.create_oval(340 + (40 * 3) + 40, 340+80+60+40+15, 340 + (40 * 3) + 40 + 40,340+80+60+40+40+15, width=3, fill="pink", outline="black")
+                        self.pink_number_label[take_coin_number].place(x=340 + (40 * 3) + 40 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 100 + 10)
 
-                    self.made_yellow_coin[take_coin_number] = remade_coin
+                    self.made_pink_coin[take_coin_number] = remade_coin
 
-        if  color_coin != "sky_blue":
-            for take_coin_number in range(len(self.sky_blue_coord_store)):
-                if  self.sky_blue_coord_store[take_coin_number] == counter_coin:
+        if  color_coin != "blue":
+            for take_coin_number in range(len(self.blue_coord_store)):
+                if  self.blue_coord_store[take_coin_number] == counter_coin:
                     if path_to_traverse_before_overlap == 6:
                         self.six_with_overlap = 1
                     else:
                         self.time_for -= 1
 
-                    self.make_canvas.delete(self.made_sky_blue_coin[take_coin_number])
-                    self.sky_blue_number_label[take_coin_number].place_forget()
-                    self.sky_blue_coin_position[take_coin_number] = -1
-                    self.sky_blue_coord_store[take_coin_number]=-1
+                    self.make_canvas.delete(self.made_blue_coin[take_coin_number])
+                    self.blue_number_label[take_coin_number].place_forget()
+                    self.blue_coin_position[take_coin_number] = -1
+                    self.blue_coord_store[take_coin_number]=-1
 
                     if take_coin_number == 0:
-                        remade_coin = self.make_canvas.create_oval(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
-                        self.sky_blue_number_label[take_coin_number].place(x=100+40+10, y=30 + (40*6)+(40*3)+40+10)
+                        remade_coin = self.make_canvas.create_oval(100 + 40, 340+80+15, 100 + 40 + 40, 340+80+40+15, width=3, fill="#073763", outline="black")
+                        self.blue_number_label[take_coin_number].place(x=100+40+10, y=30 + (40*6)+(40*3)+40+10)
                     elif take_coin_number == 1:
-                        remade_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#04d9ff", outline="black")
-                        self.sky_blue_number_label[take_coin_number].place(x=100 + 40 + 60 +60 + 10, y=30 + (40*6)+(40*3)+40+10)
+                        remade_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40+20, 340+80+15, 100 + 40 + 60 + 40 + 40+20, 340+80+40+15, width=3, fill="#073763", outline="black")
+                        self.blue_number_label[take_coin_number].place(x=100 + 40 + 60 +60 + 10, y=30 + (40*6)+(40*3)+40+10)
                     elif take_coin_number == 2:
-                        remade_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 100 + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="#04d9ff", outline="black")
-                        self.sky_blue_number_label[take_coin_number].place(x=100 + 40 + 60 + 60 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 60 + 40 + 10)
+                        remade_coin = self.make_canvas.create_oval(100 + 40 + 60 + 40 + 20, 340 + 80 + 60 + 40 + 15, 100 + 40 + 60 + 40 + 40 + 20, 340 + 80 + 60 + 40 + 40 + 15, width=3, fill="#073763", outline="black")
+                        self.blue_number_label[take_coin_number].place(x=100 + 40 + 60 + 60 + 10, y=30 + (40 * 6) + (40 * 3) + 40 + 60 + 40 + 10)
                     else:
-                        remade_coin = self.make_canvas.create_oval( 100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#04d9ff", outline="black")
-                        self.sky_blue_number_label[take_coin_number].place(x=100+40+10, y=30 + (40*6)+(40*3)+40+60+40+10)
+                        remade_coin = self.make_canvas.create_oval( 100 + 40, 340+80+60+40+15, 100 + 40 + 40, 340+80+60+40+40+15, width=3, fill="#073763", outline="black")
+                        self.blue_number_label[take_coin_number].place(x=100+40+10, y=30 + (40*6)+(40*3)+40+60+40+10)
 
-                    self.made_sky_blue_coin[take_coin_number] = remade_coin
+                    self.made_blue_coin[take_coin_number] = remade_coin
 
 
     def under_room_traversal_control(self,specific_coin,number_label,number_label_x,number_label_y,path_counter,counter_coin,color_coin):
@@ -1358,15 +1351,15 @@ class Ludo:
 
         elif color_coin == "green" and counter_coin >= 100:
             if  int(counter_coin) + int(path_counter) <= 106:
-                counter_coin = self.room_green_traversal(specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin)
+                counter_coin = self.room_grn_traversal(specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin)
 
-        elif color_coin == "yellow" and counter_coin >= 100:
+        elif color_coin == "pink" and counter_coin >= 100:
             if  int(counter_coin) + int(path_counter) <= 106:
-                counter_coin = self.room_yellow_traversal(specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin)
+                counter_coin = self.room_pink_traversal(specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin)
 
-        elif color_coin == "sky_blue" and counter_coin >= 100:
+        elif color_coin == "blue" and counter_coin >= 100:
             if  int(counter_coin) + int(path_counter) <= 106:
-                counter_coin = self.room_sky_blue_traversal(specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin)
+                counter_coin = self.room_blue_traversal(specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin)
 
         return counter_coin
 
@@ -1382,7 +1375,7 @@ class Ludo:
             time.sleep(0.2)
         return counter_coin
 
-    def room_green_traversal(self, specific_coin, number_label, number_label_x, number_label_y, path_counter, counter_coin):
+    def room_grn_traversal(self, specific_coin, number_label, number_label_x, number_label_y, path_counter, counter_coin):
         while path_counter > 0:
             counter_coin += 1
             path_counter -= 1
@@ -1393,7 +1386,7 @@ class Ludo:
             time.sleep(0.2)
         return counter_coin
 
-    def room_yellow_traversal(self, specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin):
+    def room_pink_traversal(self, specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin):
         while path_counter > 0:
             counter_coin += 1
             path_counter -= 1
@@ -1404,7 +1397,7 @@ class Ludo:
             time.sleep(0.2)
         return counter_coin
 
-    def room_sky_blue_traversal(self, specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin):
+    def room_blue_traversal(self, specific_coin, number_label, number_label_x, number_label_y,path_counter,counter_coin):
         while path_counter > 0:
             counter_coin += 1
             path_counter -= 1
@@ -1421,13 +1414,13 @@ class Ludo:
             temp_store = self.red_coord_store
             temp_delete = 0# Player index
         elif color_coin == "green":
-            temp_store = self.green_coord_store
+            temp_store = self.grn_coord_store
             temp_delete = 3# Player index
-        elif color_coin == "yellow":
-            temp_store = self.yellow_coord_store
+        elif color_coin == "pink":
+            temp_store = self.pink_coord_store
             temp_delete = 2# Player index
         else:
-            temp_store = self.sky_blue_coord_store
+            temp_store = self.blue_coord_store
             temp_delete = 1# Player index
 
         for take in temp_store:
@@ -1436,19 +1429,20 @@ class Ludo:
             else:
                 destination_reached = 0
                 break
-
-        if  destination_reached == 1:# If all coins in block reach to the destination, winner and runner check
+                # winner and runner check 
+        if  destination_reached == 1:
             self.take_permission += 1
-            if self.take_permission == 1:# Winner check
+            if self.take_permission == 1:
                 if self.robo_prem == 1 and color_coin == "red":
-                    messagebox.showinfo("Winner", "Hurrah! I am the winner")
+                    messagebox.showinfo("Wohoo", "I am the winner")
                 else:
-                    messagebox.showinfo("Winner","Congrats! You are the winner")
+                    messagebox.showinfo("Wohoo","You are the winner")
             elif self.take_permission == 2:# 1st runner check
                 if self.robo_prem == 1 and color_coin == "red":
-                    messagebox.showinfo("Winner", "Hurrah! I am 1st runner")
+                    messagebox.showinfo("Wohoo","I am 1st runner")
+
                 else:
-                    messagebox.showinfo("Winner", "Wow! You are 1st runner")
+                    messagebox.showinfo("Wohoo", "Wow! You are 1st runner")
             elif self.take_permission == 3:# 2nd runner check
                 if self.robo_prem == 1 and color_coin == "red":
                     messagebox.showinfo("Result", "I am 2nd runner....Not bad at all")
@@ -1488,7 +1482,7 @@ class Ludo:
                     pass
             else:# All coins not present in room
                 temp = self.red_coin_position# Take red coin position reference
-                take_ref = self.sky_blue_coin_position# Take sky_blue coin position reference
+                take_ref = self.blue_coin_position# Take sky_blue coin position reference
                 
                 if len(self.robo_store) == 1:# When only one coin is outside of the room
                     if self.move_red_counter<6:# When prediction less than 6
@@ -1557,7 +1551,7 @@ class Ludo:
                             store = {}
                             if take_ref:
                                 for robo in temp_robo_store:#  robo is coin number
-                                    for coin_other in take_ref:# coin_other is sky_blue coin location
+                                    for coin_other in take_ref:# coin_other is blue coin location
                                         if coin_other>-1 and coin_other<100:
                                             if take_len>1 and (temp[robo-1]>38 and coin_other<=38) or ((temp[robo-1] == 9 or temp[robo-1] == 14 or temp[robo-1] == 27 or temp[robo-1] == 35 or temp[robo-1] == 40 or temp[robo-1] == 48 or temp[robo-1] == 22) and (coin_other<=temp[robo-1] or (coin_other>temp[robo-1] and coin_other<=temp[robo-1]+3))):  # avoid case to store
                                                 take_len-=1
@@ -1644,7 +1638,7 @@ class Ludo:
                         coin_proceed = 0
                         
                         for coin in self.robo_store:
-                            if temp[coin-1] + self.move_red_counter in self.sky_blue_coin_position:
+                            if temp[coin-1] + self.move_red_counter in self.blue_coin_position:
                                 coin_proceed = coin
                                 break
 
@@ -1681,5 +1675,5 @@ if __name__ == '__main__':
     block_three_side = ImageTk.PhotoImage(Image.open("Images/3_block.png").resize((33, 33), Image.LANCZOS))
     block_two_side = ImageTk.PhotoImage(Image.open("Images/2_block.png").resize((33, 33), Image.LANCZOS))
     block_one_side = ImageTk.PhotoImage(Image.open("Images/1_block.png").resize((33, 33), Image.LANCZOS))
-    Ludo(window,block_six_side,block_five_side,block_four_side,block_three_side,block_two_side,block_one_side)
+    Ludomania(window,block_six_side,block_five_side,block_four_side,block_three_side,block_two_side,block_one_side)
     window.mainloop()
